@@ -27,9 +27,11 @@ SOFTWARE.
     <title>SOLIDARITY</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="favicon.png">
-    <!-- gTagIns=templates\html\_scripts.html  @LINES_TO_MERGE=31, TEMPLATE_OFFSET=11 @ -->
+    <!-- gTagIns=templates\html\_scripts.html  @LINES_TO_MERGE=33, TEMPLATE_OFFSET=11 @ -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="css/components/icon.min.css">
+    
     <!-- <link rel="stylesheet" href="css/easymde.min.css"> -->
     
     <script src="js/rdflib.min.js"></script>
@@ -385,12 +387,12 @@ SOFTWARE.
           </div>
     </div>
     <div id="div_mob__some_other_menu" class="ui sidebar inverted vertical menu">
-            <a class="active item" onclick="_(0)">
-                Something
+            <a class="active item" onclick="_()">
+                !one
             </a>
             <a class="item" onclick="_(1)">
-                Something else
-            </a> 
+                !two
+            </a>
     </div>
     
     <div id="div_mob" style="display:none;">
@@ -429,12 +431,12 @@ SOFTWARE.
                 <div class="menu" style="margin-left:0px !important;">
                     <div class="item" onclick="navigation__mob__channels_select()">Channels</div>
                     <div class="" onclick="_()"><hr style="width:80%"></div>
-                    <div class="item" onclick="_()">!Chatter</div>
+                    <div class="item" onclick="navigation__showPage('CHATTER')">Chatter</div>
                     <div class="item" onclick="_()">!Questions</div>
                     <div class="item" onclick="_()">!Topics</div>
                     <div class="item" onclick="_()">!Polls</div>
                     <div class="" onclick="_()"><hr style="width:80%"></div>
-                    <div class="item" onclick="_()">!Inbox</div>
+                    <div class="item" onclick="navigation__showPage('INBOX')">Inbox</div>
                     <div class="" onclick="_()"><hr style="width:80%"></div>
                     <div class="item" onclick="modals__add_channel_show()">Add Channel</div>
                     <div class="item" onclick="modals__manage_channels_show()">Remove Channel</div>
@@ -452,13 +454,40 @@ SOFTWARE.
         
         <!-- chatviewport-->
         <div style="position:absolute; left:0px; top:50px;">
-            
+                        
             <!-- chat viewport white background -->
-            <div id="div_mob_chatviewportbg" style="position:absolute; left:0px; top:0px; margin-left:0px; margin-top:0px; width:350px; height:350px; background-color:#ffffff;"></div>
+            <div id="div_mob_chatviewportbg" style="display:none-; position:absolute; left:0px; top:0px; margin-left:0px; margin-top:0px; width:350px; height:350px; background-color:#ffffff;"></div>
             
-            <div id="div_mob_chatter_container" style="float:left; width:350px; height:350px; background-color:#f0f000-;  opacity:1; padding-left:15px; padding-top:30px;  overflow-y: scroll; overflow-x: hidden">
+            <div id="div_mob_chatter_container" style="display:none-; float:left; width:350px; height:350px; background-color:#f0f000-;  opacity:1; padding-left:15px; padding-top:30px;  overflow-y: scroll; overflow-x: hidden">
                 <!-- dynamic chatter goes in here.. -->
             </div>
+            <!-- inbox controls (message list) -->
+            <div id="div_mob_inbox_contols" style="display:none; position:absolute; visibility:hidden-; width:350px; height:50px; background-color:#f0f000-; left:15px; top:8px;">
+                <span id="div_mob_inbox_contols__lbl_msg_count"></span>
+                <i class="sync icon" onclick="javascript:alert('refresh')"></i>
+                <i class="trash alternate outline icon" onclick="javascript:alert('delete')"></i>
+            </div>
+            
+            <!-- inbox controls (message view) -->
+            <div id="div_mob_inbox_contols__messageview" style="display:none; position:absolute; visibility:hidden-; width:350px; height:50px; background-color:#f0f000-; left:15px; top:8px;">
+                <button onclick="solid_inbox__messageView_onclick_back()" style="margin-right:25px" class="ui button">Back</button>
+                <i class="trash alternate outline icon" onclick="javascript:alert('delete')"></i>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="reply icon" onclick="javascript:alert('reply')"></i>
+                | <i class="reply all icon" onclick="javascript:alert('reply-all')"></i>
+                | <i class="share alternate icon" onclick="javascript:alert('share')"></i>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="info circle icon" onclick="javascript:alert('info')"></i>
+            </div>            
+            
+            <!-- inbox message list container -->
+            <div id="div_mob_inbox_container" style="display:none; float:left; margin-top:55px; width:350px; height:350px; background-color:#f0f000-;  opacity:1; padding-left:15px; padding-top:30px;  overflow-y: scroll; overflow-x: hidden">
+                <!-- dynamic inbox goes in here.. -->
+            </div>
+            
+            <div id="div_mob_inbox_container__msg_view" style="display:none; margin-top:55px; float:left; width:350px; height:500px; background-color:#f0f000-;  opacity:1; padding-left:15px; padding-top:30px;  overflow-y: scroll; overflow-x: hidden">
+                <!-- dynamic inbox message goes in here.. -->                
+            </div>            
             
         </div>
         
