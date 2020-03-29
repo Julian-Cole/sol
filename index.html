@@ -27,7 +27,7 @@ SOFTWARE.
     <title>SOLIDARITY</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="favicon.png">
-    <!-- gTagIns=templates\html\_scripts.html  @LINES_TO_MERGE=33, TEMPLATE_OFFSET=11 @ -->
+    <!-- gTagIns=templates\html\_scripts.html  @LINES_TO_MERGE=40, TEMPLATE_OFFSET=11 @ -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="css/components/icon.min.css">
@@ -37,15 +37,23 @@ SOFTWARE.
     <script src="js/rdflib.min.js"></script>
     <!-- <script src="js/solid-file-client.bundle.js"></script> -->
     <!--<script src="https://cdn.jsdelivr.net/gh/scenaristeur/shighl@master/dist/vendor/solid-auth-client.bundle.js"> </script>-->
-    <script src="https://cdn.jsdelivr.net/npm/solid-auth-client@2.3.0/dist-lib/solid-auth-client.bundle.js"></script>
+    
+    
+    <!-- <script src="https://cdn.jsdelivr.net/npm/solid-auth-client@2.3.0/dist-lib/solid-auth-client.bundle.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/solid-file-client@1.0.0/dist/window/solid-file-client.bundle.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/scenaristeur/shighl@master/dist/vendor/solid-query-ldflex.bundle.js"> </script>
-    <script src="https://cdn.jsdelivr.net/gh/scenaristeur/shighl@master/dist/window/shighl.bundle.js"> </script>
-    <!--
+    <!-- <script src="https://cdn.jsdelivr.net/gh/scenaristeur/shighl@master/dist/vendor/solid-query-ldflex.bundle.js"> </script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/scenaristeur/shighl@master/dist/window/shighl.bundle.js"> </script> -->
+    
+    
     <script src="js/solid-auth-client.bundle.js"></script>
     <script src="js/solid-query-ldflex.bundle.js"></script>
     <script src="js/Shighl.bundle.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/gh/scenaristeur/shighl@master/dist/window/shighl.bundle.js"></script> -->
+    
+    <!--
+        Not ready yet on https://cdn.jsdelivr.net/gh/scenaristeur/shighl@master/package.json
     -->
+    
     <script src="js/moment-with-locales.min.js" type="text/javascript"></script>
     <script src="js/jquery.min.js" type="text/javascript"></script>
     <script src="js/howler.min.js" type="text/javascript"></script>
@@ -461,14 +469,20 @@ SOFTWARE.
             <div id="div_mob_chatter_container" style="display:none-; float:left; width:350px; height:350px; background-color:#f0f000-;  opacity:1; padding-left:15px; padding-top:30px;  overflow-y: scroll; overflow-x: hidden">
                 <!-- dynamic chatter goes in here.. -->
             </div>
-            <!-- inbox controls (message list) -->
+            <!-- inbox controls (MESSAGE LIST) -->
             <div id="div_mob_inbox_contols" style="display:none; position:absolute; visibility:hidden-; width:350px; height:50px; background-color:#f0f000-; left:15px; top:8px;">
+                <i class="sync icon" onclick="solid_inbox__getInbox()"></i>
+                &nbsp;&nbsp;&nbsp;&nbsp;
                 <span id="div_mob_inbox_contols__lbl_msg_count"></span>
-                <i class="sync icon" onclick="javascript:alert('refresh')"></i>
-                <i class="trash alternate outline icon" onclick="javascript:alert('delete')"></i>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="pen icon" onclick="solid_inbox__composeMessage()"></i>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="trash alternate outline icon" onclick="solid_inbox__deleteInboxListItem()"></i>
             </div>
             
-            <!-- inbox controls (message view) -->
+            <!-- inbox controls (MESSAGE VIEW) -->
             <div id="div_mob_inbox_contols__messageview" style="display:none; position:absolute; visibility:hidden-; width:350px; height:50px; background-color:#f0f000-; left:15px; top:8px;">
                 <button onclick="solid_inbox__messageView_onclick_back()" style="margin-right:25px" class="ui button">Back</button>
                 <i class="trash alternate outline icon" onclick="javascript:alert('delete')"></i>
@@ -478,7 +492,19 @@ SOFTWARE.
                 | <i class="share alternate icon" onclick="javascript:alert('share')"></i>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <i class="info circle icon" onclick="javascript:alert('info')"></i>
-            </div>            
+            </div> 
+            
+            <!-- inbox controls (COMPOSE VIEW) -->
+            <div id="div_mob_inbox_contols__composeview" style="display:none; position:absolute; visibility:hidden-; width:350px; height:50px; background-color:#f0f000-; left:15px; top:8px;">
+                <button onclick="solid_inbox__composeView_onclick_back()" style="margin-right:25px" class="ui button">Back</button>
+                <i class="trash alternate outline icon" onclick="javascript:alert('discard message')"></i>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <button onclick="solid_inbox__composeView_onclick_send()" style="margin-right:25px" class="ui button">Send</button>
+            </div>             
+            
             
             <!-- inbox message list container -->
             <div id="div_mob_inbox_container" style="display:none; float:left; margin-top:55px; width:350px; height:350px; background-color:#f0f000-;  opacity:1; padding-left:15px; padding-top:30px;  overflow-y: scroll; overflow-x: hidden">
@@ -488,6 +514,34 @@ SOFTWARE.
             <div id="div_mob_inbox_container__msg_view" style="display:none; margin-top:55px; float:left; width:350px; height:500px; background-color:#f0f000-;  opacity:1; padding-left:15px; padding-top:30px;  overflow-y: scroll; overflow-x: hidden">
                 <!-- dynamic inbox message goes in here.. -->                
             </div>            
+            
+            <div id="div_mob_inbox_container__composeview" style="display:none; margin-top:55px; float:left; width:350px; height:500px; background-color:#f0f000-;  opacity:1; padding-left:15px; padding-top:30px;  overflow-y: scroll; overflow-x: hidden">
+                <div class="ui form" style="width:350px">
+                    <div class="field">
+                      <label>From:</label>
+                      <input id="frm_compose_msg_view__from" type="text">
+                    </div>
+                    <div class="field">
+                      <label>To:</label>
+                      <!--
+                      <input id="frm_compose_msg_view__to" type="text">
+                      -->
+                      <select class="ui fluid search dropdown" id="frm_compose_msg_view__to">
+                          <!-- dynamcic friends list -->
+                      </select>                      
+                    </div>               
+                    <div class="field">
+                      <label>Subject:</label>
+                      <input id="frm_compose_msg_view__subject" type="text">
+                    </div>
+                    <div class="field">
+                        <label>Message:</label>
+                        <textarea id="frm_compose_msg_view__message" rows="10"></textarea>
+                    </div>                    
+                </div>
+                
+            </div>                        
+            
             
         </div>
         
